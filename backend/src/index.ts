@@ -19,6 +19,13 @@ io.on("connection", (socket) => {
     socket.emit("pong", { time: Date.now() });
   });
 
+  socket.on("draw:begin", (data) => {
+    socket.broadcast.emit("draw:begin", data);
+  });
+  socket.on("draw:move", (data) => {
+    socket.broadcast.emit("draw:move", data);
+  });
+
   socket.on("disconnect", () => {
     console.log(`User ${socket.id} disconnected`);
   });
