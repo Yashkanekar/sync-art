@@ -26,9 +26,21 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("draw:move", data);
   });
 
-  socket.on("disconnect", () => {
-    console.log(`User ${socket.id} disconnected`);
+  socket.on("board:update", (newLines) => {
+      // emit to everyone (including the emitter)
+      io.emit("board:update", newLines);
+    });
+
+     socket.on('draw:remove', (id: string) => {
+    io.emit('draw:remove', id);
   });
+
+  socket.on('draw:redo', (line) => {
+    io.emit('draw:redo', line);
+  });
+    socket.on("disconnect", () => {
+      console.log(`User ${socket.id} disconnected`);
+    });
 });
 
 const PORT = process.env.PORT || 4000;
